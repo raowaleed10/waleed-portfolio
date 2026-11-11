@@ -1,8 +1,10 @@
 import { HeroDiagram } from "@/components/diagram/HeroDiagram";
 import { Hero } from "@/components/hero/Hero";
+import { Experience } from "@/components/sections/Experience";
 import { IncidentLog } from "@/components/sections/IncidentLog";
 import { Metrics } from "@/components/sections/Metrics";
 import { SelectedWork } from "@/components/sections/SelectedWork";
+import { Stack } from "@/components/sections/Stack";
 
 export default function Home() {
   return (
@@ -11,6 +13,8 @@ export default function Home() {
       <Metrics />
       <SelectedWork />
       <IncidentLog />
+      <Experience />
+      <Stack />
     </>
   );
 }
