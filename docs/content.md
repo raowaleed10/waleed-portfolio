@@ -62,11 +62,11 @@ Lines marked `TODO(waleed)` need Waleed's input. The site skips them until they 
 
 ## Metrics strip
 
-- 3+ — years building production SaaS
-- 7 — products shipped in 7 months
+- 3+ — years shipping production web apps
+- 7 — products shipped since Feb 2026
 - 337 — tests gating every merge
 - 8 — live customer sites on UChatbots
-- 40% — faster API responses on DityTruck
+- 40% — lower API response times on DityTruck
 
 ---
 
@@ -120,6 +120,7 @@ Intro: Products I've built and run in production.
 - Slug: accountabuddy
 - One-liner: Real-time virtual coworking platform
 - Company: Xtreeme Tech · sole engineer
+- Status: Live with paying subscribers
 - Live URL: https://app.accountabuddy.net
 - Stack: Django REST Framework, Django Channels, React, Redux Toolkit, custom WebSocket client, Celery, django-celery-beat, Stripe, Docker Compose, Nginx, Uvicorn (ASGI)
 - Card summary: Live-video coworking with auto-paired sessions and synchronized timers, built and run solo.
@@ -192,7 +193,7 @@ Intro: Production doesn't fail politely. A few incidents I've root-caused on liv
 ### Full-Stack Developer — Xtreeme Tech, Lahore
 
 - Dates: Feb 2026 – Present
-- Ship AI-integrated B2B products end to end on Django 5 and React 19 — 7 delivered in 7 months — owning API contracts, PostgreSQL schema design, async workflows and deployment.
+- Ship AI-integrated B2B products end to end on Django 5 and React 19 — 7 delivered since Feb 2026 — owning API contracts, PostgreSQL schema design, async workflows and deployment.
 - Build some products solo from an empty repository to production; work with a product team on larger platforms like UChatbots and ExcevoAI.
 - Keep client data strictly separated across 30+ models with scoped querysets, RBAC and Fernet-encrypted connector credentials, plus per-tenant HMAC webhook routing that avoids a full-table credential decrypt.
 - Run historical backfills, scheduled jobs and outbound webhook delivery through Celery and Redis pipelines with exponential-backoff retry, keeping request paths fast under load.
@@ -231,7 +232,7 @@ Intro: What I use in production.
 
 ## 05 / About
 
-I'm a full-stack developer in Lahore with 3+ years building production SaaS on Django and React. I like owning a product end to end — schema, APIs, frontend, deployment — and I'm at my best when something breaks in production and needs a calm root cause rather than a guess.
+I'm a full-stack developer in Lahore with 3+ years shipping production web apps on Django and React. I like owning a product end to end — schema, APIs, frontend, deployment — and I'm at my best when something breaks in production and needs a calm root cause rather than a guess.
 
 Lately I've been building multi-tenant, AI-integrated B2B platforms where tenant isolation and security aren't optional. I'm looking for a remote full-stack role with a team that cares about shipping reliable software.
 
@@ -256,3 +257,27 @@ Lately I've been building multi-tenant, AI-integrated B2B platforms where tenant
 ## Footer
 
 - © 2026 Rao Waleed · Built with Next.js · Source on GitHub
+
+---
+
+## UI labels
+
+Interface wording approved during the plan review. These are labels, not facts.
+
+- Nav links: Work · Incidents · Experience · Stack · About · Contact
+- Nav button: Résumé
+- Mobile menu: Menu / Close
+- Skip link: Skip to content
+- Theme toggle (accessible labels): Switch to light theme / Switch to dark theme
+- Selected work: Read case study · Live product
+- Case study sections: Context · What I built · Hard problems · Outcome · Stack
+- Case study navigation: Previous case study · Next case study
+- Incident log column headers: Status · ID · Product · Type · Symptom
+- Incident log controls: Expand all / Collapse all
+- Incident steps: Symptom · Root cause · Fix · Impact
+- Incident status: Resolved
+- Hero diagram accessible name: Architecture diagram
+- Hero diagram states: degraded · recovered
+- Clock labels: Lahore · New York
+- Contact: Copy email / Copied
+- 404 page: This page doesn't exist. · Back to the homepage
