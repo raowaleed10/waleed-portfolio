@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# environment variables
+.env*
+
+# Vercel
+.vercel/
+
+# testing
+coverage/
+
+# logs
+*.log
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# OS files
+.DS_Store
+
+# local Claude Code settings (personal, not shared)
+.claude/settings.local.json
