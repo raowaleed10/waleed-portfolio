@@ -1,0 +1,32 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      # `next typegen` regenerates the git-ignored next-env.d.ts and route types before tsc.
+      - run: npm run typecheck
+      - run: npm test
+      # public/Rao-Waleed-CV.pdf is git-ignored, so CI builds without the resume link.
+      - run: npm run build
