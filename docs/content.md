@@ -133,7 +133,7 @@ Intro: Products I've built and run in production.
   - Deployment with Docker Compose, Nginx and Uvicorn ASGI workers.
 - Hard problems: see INC-01 and INC-02
 - Outcome: Core live-session feature restored after a total outage, and billing made reliable for paying subscribers.
-- Architecture diagram nodes: Browser (React + custom WebSocket client) ⇄ Nginx → Uvicorn ASGI → Django Channels ⇄ Redis (channels_redis). Side nodes: DRF API; Celery + beat → pairing, reminders, nightly jobs; Stripe webhooks → idempotent handler.
+- Architecture diagram nodes: Browser (React + custom WebSocket client) ⇄ Nginx → Uvicorn ASGI → Django Channels ⇄ Redis (channels_redis). Uvicorn ASGI → DRF API (the HTTP API runs on the same ASGI workers). Stripe webhooks → DRF API → idempotent handler (the handler lives in the DRF API). Side nodes: Celery + beat → pairing, reminders, nightly jobs.
 
 ### DityTruck (smaller card, no case-study page)
 

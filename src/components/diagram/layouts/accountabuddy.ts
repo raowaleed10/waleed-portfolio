@@ -5,15 +5,17 @@ type AccountabuddyLayout = LayoutFor<typeof accountabuddyDiagram>;
 
 /*
  * Desktop, 716 × 200. The real-time path runs along the top and drops into
- * Redis; the side services sit underneath. The DRF API has no stated edges,
- * so it stands alone under Uvicorn.
+ * Redis. Uvicorn also drops into the DRF API, which takes Stripe webhooks
+ * from the left and hands them down to the idempotent handler; Celery and
+ * its jobs fill the bottom-left.
  *
  *  ┌ Browser ───────────────────────┐   ┌ Nginx ┐  ┌ Uvicorn ASGI ┐  ┌ Django Channels ┐
- *  └ React + custom WebSocket client ┘◀─▶└───────┘─▶└──────────────┘─▶└────────▲────────┘
- *                                                                              ▼
- *  ┌ Stripe webhooks ┐─▶┌ Idempotent handler ┐      ┌ DRF API ┐     ┌ Redis ─────────┐
- *                                                                   └ channels_redis ┘
- *  ┌ Celery + beat ┐─▶┌ Pairing, reminders, nightly jobs ┐
+ *  └ React + custom WebSocket client ┘◀─▶└───────┘─▶└──────┬───────┘─▶└────────▲────────┘
+ *                                                          ▼                   ▼
+ *  ┌ Stripe webhooks ┐───────────────────────────────▶┌ DRF API ┐     ┌ Redis ─────────┐
+ *                                                     └────┬────┘     └ channels_redis ┘
+ *                                                          ▼
+ *  ┌ Celery + beat ┐─▶┌ Pairing, reminders, nightly jobs ┐ ┌ Idempotent handler ┐
  */
 export const accountabuddyDesktop = {
   width: 716,
@@ -25,10 +27,10 @@ export const accountabuddyDesktop = {
     channels: { x: 572, y: 6, w: 144, h: 32 },
     redis: { x: 578, y: 84, w: 132, h: 44 },
     stripe: { x: 0, y: 90, w: 144, h: 32 },
-    handler: { x: 180, y: 90, w: 164, h: 32 },
-    api: { x: 430, y: 90, w: 96, h: 32 },
+    api: { x: 448, y: 90, w: 96, h: 32 },
     celery: { x: 0, y: 168, w: 132, h: 32 },
     jobs: { x: 168, y: 168, w: 268, h: 32 },
+    handler: { x: 470, y: 168, w: 164, h: 32 },
   },
   edges: [
     {
@@ -64,6 +66,30 @@ export const accountabuddyDesktop = {
       ],
     },
     {
+      from: "uvicorn",
+      to: "api",
+      points: [
+        { x: 494, y: 38 },
+        { x: 494, y: 90 },
+      ],
+    },
+    {
+      from: "stripe",
+      to: "api",
+      points: [
+        { x: 144, y: 106 },
+        { x: 448, y: 106 },
+      ],
+    },
+    {
+      from: "api",
+      to: "handler",
+      points: [
+        { x: 494, y: 122 },
+        { x: 494, y: 168 },
+      ],
+    },
+    {
       from: "celery",
       to: "jobs",
       points: [
@@ -71,21 +97,14 @@ export const accountabuddyDesktop = {
         { x: 168, y: 184 },
       ],
     },
-    {
-      from: "stripe",
-      to: "handler",
-      points: [
-        { x: 144, y: 106 },
-        { x: 180, y: 106 },
-      ],
-    },
   ],
 } as const satisfies AccountabuddyLayout;
 
 /*
- * Mobile, 335 × 380. The real-time path is the left spine (x = 72); the side
- * services stack in the right column (x = 253), and the jobs node spans the
- * bottom.
+ * Mobile, 335 × 380. The real-time path is the left spine (x = 72). The right
+ * column (x = 253) is the webhook path: Stripe → DRF API → idempotent handler,
+ * with Uvicorn feeding the API from the spine. Celery + beat and its jobs
+ * close the bottom.
  */
 export const accountabuddyMobile = {
   width: 335,
@@ -96,8 +115,8 @@ export const accountabuddyMobile = {
     uvicorn: { x: 10, y: 140, w: 124, h: 32 },
     channels: { x: 0, y: 204, w: 144, h: 32 },
     redis: { x: 6, y: 268, w: 132, h: 44 },
-    api: { x: 205, y: 76, w: 96, h: 32 },
-    stripe: { x: 181, y: 140, w: 144, h: 32 },
+    stripe: { x: 181, y: 76, w: 144, h: 32 },
+    api: { x: 205, y: 140, w: 96, h: 32 },
     handler: { x: 171, y: 204, w: 164, h: 32 },
     celery: { x: 187, y: 274, w: 132, h: 32 },
     jobs: { x: 67, y: 348, w: 268, h: 32 },
@@ -136,7 +155,23 @@ export const accountabuddyMobile = {
       ],
     },
     {
+      from: "uvicorn",
+      to: "api",
+      points: [
+        { x: 134, y: 156 },
+        { x: 205, y: 156 },
+      ],
+    },
+    {
       from: "stripe",
+      to: "api",
+      points: [
+        { x: 253, y: 108 },
+        { x: 253, y: 140 },
+      ],
+    },
+    {
+      from: "api",
       to: "handler",
       points: [
         { x: 253, y: 172 },

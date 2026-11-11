@@ -144,7 +144,7 @@ export const excevoaiDiagram = {
 export const accountabuddyDiagram = {
   id: "accountabuddy",
   title:
-    "Accountabuddy architecture: the browser, running React with a custom WebSocket client, talks through Nginx to Uvicorn ASGI workers and Django Channels, which exchanges messages with Redis through channels_redis. Alongside: the DRF API, Celery with beat running pairing, reminders and nightly jobs, and Stripe webhooks feeding an idempotent handler.",
+    "Accountabuddy architecture: the browser, running React with a custom WebSocket client, talks through Nginx to Uvicorn ASGI workers and Django Channels, which exchanges messages with Redis through channels_redis. The same ASGI workers serve the DRF API, which receives Stripe webhooks and passes them to an idempotent handler. Celery with beat runs pairing, reminders and nightly jobs.",
   nodes: [
     { id: "browser", label: "Browser", sublabel: "React + custom WebSocket client" },
     { id: "nginx", label: "Nginx" },
@@ -162,8 +162,12 @@ export const accountabuddyDiagram = {
     { from: "nginx", to: "uvicorn" },
     { from: "uvicorn", to: "channels" },
     { from: "channels", to: "redis", bidirectional: true },
+    // The HTTP API runs on the same ASGI workers.
+    { from: "uvicorn", to: "api" },
+    // Stripe webhooks reach the DRF API, where the idempotent handler lives.
+    { from: "stripe", to: "api" },
+    { from: "api", to: "handler" },
     { from: "celery", to: "jobs" },
-    { from: "stripe", to: "handler" },
   ],
 } as const satisfies Diagram;
 

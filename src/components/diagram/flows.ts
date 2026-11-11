@@ -37,8 +37,9 @@ export const packetFlows = {
     { path: ["browser", "nginx", "uvicorn", "channels", "redis"], weight: 3 },
     { path: ["redis", "channels"], weight: 1 },
     { path: ["nginx", "browser"], weight: 1 },
+    { path: ["browser", "nginx", "uvicorn", "api"], weight: 1 },
     { path: ["celery", "jobs"], weight: 1 },
-    { path: ["stripe", "handler"], weight: 1 },
+    { path: ["stripe", "api", "handler"], weight: 1 },
   ],
 } as const satisfies Record<DiagramId, readonly PacketFlow[]>;
 
