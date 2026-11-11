@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { ThemeScript } from "@/components/layout/ThemeScript";
-import { site } from "@/content/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { personJsonLd, rootMetadata, rootViewport, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,10 +30,8 @@ const instrumentSerif = Instrument_Serif({
 // Every route must be fully prerendered at build time.
 export const ensureStatic = "navigation";
 
-export const metadata: Metadata = {
-  title: site.title,
-  description: site.description,
-};
+export const metadata: Metadata = rootMetadata;
+export const viewport: Viewport = rootViewport;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -53,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
         </MotionProvider>
+        <JsonLd data={[personJsonLd(), websiteJsonLd()]} />
       </body>
     </html>
   );
