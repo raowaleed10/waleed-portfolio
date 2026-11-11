@@ -39,6 +39,9 @@ next-env.d.ts
 # certificates
 *.pem
 
+# Playwright MCP session output
+.playwright-mcp/
+
 # Résumé: the current file still contains a phone number, which must never be
 # published. Remove this line once it is replaced with a phone-free copy.
 public/Rao-Waleed-CV.pdf

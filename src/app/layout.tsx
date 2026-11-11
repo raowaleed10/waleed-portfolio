@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { MotionProvider } from "@/components/layout/MotionProvider";
+import { ThemeScript } from "@/components/layout/ThemeScript";
+import { site } from "@/content/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,20 +15,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Italic only: used for one emphasized word in the hero headline.
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+});
+
 // Every route must be fully prerendered at build time.
 export const ensureStatic = "navigation";
 
 export const metadata: Metadata = {
-  title: "Rao Waleed — Full-Stack Developer",
+  title: site.title,
+  description: site.description,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head>
+        <ThemeScript />
+      </head>
+      <body className="bg-bg font-sans text-fg">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

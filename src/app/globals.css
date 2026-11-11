@@ -1,1 +1,217 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* Theme variants follow the data-theme attribute set by ThemeScript. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/*
+ * Reset Tailwind's defaults for color, shadow, radius and type so only the
+ * project tokens exist as utilities. "No new colors, radii or shadows" is
+ * enforced by the build, not by convention.
+ */
+@theme {
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --radius-*: initial;
+  --text-*: initial;
+
+  /* Radius: tags 2px, buttons and nodes 4px, tooltip and panels 6px. Dots use rounded-full. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+
+  /* Type scale, fluid from 375px to 1440px. */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: clamp(1rem, 0.956rem + 0.188vw, 1.125rem);
+  --text-base--line-height: 1.6;
+  --text-lg: clamp(1.125rem, 1.059rem + 0.282vw, 1.3125rem);
+  --text-lg--line-height: 1.5;
+  --text-xl: clamp(1.3125rem, 1.247rem + 0.282vw, 1.5rem);
+  --text-xl--line-height: 1.35;
+  --text-2xl: clamp(1.5rem, 1.236rem + 1.127vw, 2.25rem);
+  --text-2xl--line-height: 1.15;
+  --text-2xl--letter-spacing: -0.02em;
+  --text-3xl: clamp(2.25rem, 1.722rem + 2.254vw, 3.75rem);
+  --text-3xl--line-height: 1.05;
+  --text-3xl--letter-spacing: -0.03em;
+  --text-display: clamp(2.375rem, 1.539rem + 3.568vw, 4.75rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 500;
+
+  --tracking-label: 0.08em;
+
+  /* Motion easings (durations live in tokens.css as --dur-*). */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Shared animations. Each one animates only transform and opacity. */
+  --animate-fade-rise: fade-rise var(--dur-slow) var(--ease-out) both;
+  --animate-scale-in-x: scale-in-x var(--dur-slow) var(--ease-out) both;
+  --animate-scale-in-y: scale-in-y var(--dur-slow) var(--ease-out) both;
+  --animate-ring-pulse: ring-pulse 2.4s var(--ease-out) infinite;
+  --animate-ring-once: ring-pulse var(--dur-slow) var(--ease-out) 1 both;
+  --animate-dot-pulse: dot-pulse 2.4s var(--ease-in-out) infinite;
+
+  @keyframes fade-rise {
+    from {
+      opacity: 0;
+      transform: translateY(var(--rise, 6px));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes scale-in-x {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes scale-in-y {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  @keyframes ring-pulse {
+    from {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(2.75);
+    }
+  }
+  @keyframes dot-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}
+
+/* Token colors and fonts as utilities (bg-bg, text-muted, border-border, font-mono…). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-graphic: var(--graphic);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-signal: var(--signal);
+  --color-signal-text: var(--signal-text);
+  --color-incident: var(--incident);
+  --color-incident-text: var(--incident-text);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+/* Mono label: section labels, eyebrows, column headers, metadata. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* Comfortable reading measure for body copy. */
+@utility measure {
+  max-width: 68ch;
+}
+
+/* The 12-column layout grid: 16px gaps on phones, 24px from 768px. */
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 1rem;
+  @media (min-width: 768px) {
+    column-gap: 1.5rem;
+  }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after,
+  ::backdrop {
+    border-color: var(--border);
+  }
+
+  html {
+    background-color: var(--bg);
+    color: var(--fg);
+    scroll-padding-top: calc(var(--nav-height) + 24px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-variant-numeric: tabular-nums;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Grid children span the full width unless a col-span utility says otherwise
+     (base layer, so any utility wins). */
+  .grid-12 > * {
+    grid-column: 1 / -1;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--signal);
+    color: var(--bg);
+  }
+
+  /* Theme switches are instant: ThemeToggle sets this for one frame. */
+  :root[data-theme-switching] *,
+  :root[data-theme-switching] *::before,
+  :root[data-theme-switching] *::after {
+    transition: none !important;
+  }
+}
+
+/* Every animation has a reduced-motion fallback: jump to the end state. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

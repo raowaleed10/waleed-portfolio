@@ -1,0 +1,94 @@
+/*
+ * Design tokens. Raw custom properties only; globals.css maps them to
+ * Tailwind utilities. Dark is the default theme. Contrast ratios were
+ * measured against --bg and --surface (see the plan's token table).
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #0a0b0d;
+  --surface: #111317;
+  --surface-raised: #171a1f;
+
+  /* Lines */
+  --border: #1f2329; /* hairlines, decorative */
+  --border-strong: #2e333b; /* hover outlines, decorative */
+  --graphic: #6b7079; /* idle diagram edges, >= 3:1 */
+
+  /* Text */
+  --fg: #ece8e1; /* 16.1:1 */
+  --muted: #8b8f98; /* 6.08:1, 5.38:1 on raised */
+
+  /* Accents */
+  --signal: #c8f04a; /* operational: dots, rings, active states */
+  --signal-text: #c8f04a;
+  --incident: #ffb020; /* incident log and hero failover only */
+  --incident-text: #ffb020;
+
+  /* Motion */
+  --dur-fast: 200ms;
+  --dur-base: 320ms;
+  --dur-slow: 500ms;
+  --dur-slower: 700ms;
+  --stagger: 40ms;
+
+  /* Layout */
+  --gutter: 20px;
+  --container-max: 1360px;
+  --section-pad: clamp(96px, 12vw, 160px);
+  --nav-height: 64px;
+
+  /* Layers */
+  --z-nav: 40;
+  --z-tooltip: 50;
+  --z-skip: 60;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+/* Light theme: explicit choice, or OS preference before the theme script runs. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f3ee;
+  --surface: #fbfaf7;
+  --surface-raised: #ffffff;
+  --border: #ddd8ce;
+  --border-strong: #c9c3b7;
+  --graphic: #7d786e; /* 3.96:1 */
+  --fg: #16171a; /* 16.2:1 */
+  --muted: #5c6068; /* 5.69:1 */
+  --signal: #557a00; /* 4.54:1 */
+  --signal-text: #4a6600; /* 5.93:1 */
+  --incident: #a35f00; /* 4.52:1 */
+  --incident-text: #8a5300; /* 5.71:1 */
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: #f5f3ee;
+    --surface: #fbfaf7;
+    --surface-raised: #ffffff;
+    --border: #ddd8ce;
+    --border-strong: #c9c3b7;
+    --graphic: #7d786e;
+    --fg: #16171a;
+    --muted: #5c6068;
+    --signal: #557a00;
+    --signal-text: #4a6600;
+    --incident: #a35f00;
+    --incident-text: #8a5300;
+  }
+}
