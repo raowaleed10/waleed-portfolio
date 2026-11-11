@@ -13,6 +13,7 @@ import {
 } from "react";
 import type { Diagram } from "@/content/types";
 import { cn } from "@/lib/cn";
+import { DiagramMotion, drawInClassName } from "./DiagramMotion";
 import { DiagramSvg } from "./DiagramSvg";
 import {
   buildGeometry,
@@ -113,6 +114,7 @@ export function LiveDiagram({
   diagram,
   layout,
   interactive,
+  animated,
   failover,
   className,
 }: LiveDiagramProps) {
@@ -235,6 +237,7 @@ export function LiveDiagram({
         svgRef={svgRef}
         nodeProps={nodeProps}
         activeId={active?.id ?? null}
+        className={animated ? drawInClassName : undefined}
       />
       {interactive
         ? sources.map((source) => (
@@ -249,6 +252,15 @@ export function LiveDiagram({
             />
           ))
         : null}
+      {animated ? (
+        <DiagramMotion
+          rootRef={rootRef}
+          svgRef={svgRef}
+          diagram={diagram}
+          layout={layout}
+          failover={failover}
+        />
+      ) : null}
     </figure>
   );
 }
