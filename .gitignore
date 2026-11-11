@@ -42,9 +42,5 @@ next-env.d.ts
 # Playwright MCP session output
 .playwright-mcp/
 
-# Résumé: the current file still contains a phone number, which must never be
-# published. Remove this line once it is replaced with a phone-free copy.
-public/Rao-Waleed-CV.pdf
-
 # local Claude Code settings (personal, not shared)
 .claude/settings.local.json
