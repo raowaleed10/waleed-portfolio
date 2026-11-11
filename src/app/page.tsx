@@ -1,4 +1,3 @@
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container, GRID } from "@/components/ui/Container";
 import { ExternalLink } from "@/components/ui/ExternalLink";
@@ -35,12 +34,7 @@ const typeScale = [
 
 export default function TokenPreview() {
   return (
-    <main id="main" className="pb-32">
-      <Container className="flex h-(--nav-height) items-center justify-between border-b border-border">
-        <span className="font-mono text-sm">{site.name}</span>
-        <ThemeToggle />
-      </Container>
-
+    <div className="pb-32">
       <Container className="pt-16">
         <p className="label text-muted">{hero.eyebrow}</p>
         <h1 className="mt-6 max-w-[18ch] text-display">
@@ -124,6 +118,6 @@ export default function TokenPreview() {
           </div>
         </div>
       </Container>
-    </main>
+    </div>
   );
 }

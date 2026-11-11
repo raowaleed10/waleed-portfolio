@@ -239,4 +239,10 @@ export interface About {
 export interface Contact {
   readonly heading: string;
   readonly body: string;
+  /** Link labels from content.md's Contact → Links; hrefs come from `site`. */
+  readonly links: {
+    readonly linkedin: string;
+    readonly github: string;
+    readonly resume: string;
+  };
 }
