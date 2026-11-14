@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { IncidentEntry } from "@/components/sections/IncidentEntry";
 import { Container } from "@/components/ui/Container";
 import type { CaseStudy as CaseStudyContent } from "@/content/types";
@@ -38,10 +39,13 @@ export function CaseStudy({ study }: { study: CaseStudyContent }) {
       <Container>
         <CaseStudyHeader study={study} headingId={HEADING_ID} />
 
+        {/* Static Suspense boundaries (no fallback ever shows): React hydrates
+            the diagram and the text parts as separate, shorter tasks. */}
         <div className="mt-12 md:mt-16">
           <CaseStudyDiagram slug={study.slug} />
         </div>
 
+        <Suspense>
         <div className="mt-16 md:mt-24">
           <CaseStudySection id={PART_IDS.context} label={ui.caseStudy.context}>
             <p className="measure text-lg text-pretty">{study.context}</p>
@@ -74,6 +78,7 @@ export function CaseStudy({ study }: { study: CaseStudyContent }) {
             <p className="text-2xl font-medium text-balance">{study.outcome}</p>
           </CaseStudySection>
         </div>
+        </Suspense>
       </Container>
     </article>
   );

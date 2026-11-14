@@ -72,12 +72,22 @@ export function SmoothScroll() {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onMotionChange = () => (media.matches ? stop() : start());
 
-    start();
+    // Start on the visitor's first input, not at load: smooth scrolling only
+    // matters once someone scrolls, and this keeps Lenis's full-page
+    // measurement out of the load-time critical path. Until then, anchor
+    // links use the native jump (same landing spot).
+    const firstInput = ["wheel", "pointerdown", "keydown", "touchstart"] as const;
+    const onFirstInput = () => {
+      for (const type of firstInput) window.removeEventListener(type, onFirstInput);
+      start();
+    };
+    for (const type of firstInput) window.addEventListener(type, onFirstInput, { passive: true });
     // Capture phase: runs before next/link's own handler, which then skips the
     // already-handled (defaultPrevented) same-page click.
     document.addEventListener("click", onClick, true);
     media.addEventListener("change", onMotionChange);
     return () => {
+      for (const type of firstInput) window.removeEventListener(type, onFirstInput);
       document.removeEventListener("click", onClick, true);
       media.removeEventListener("change", onMotionChange);
       stop();

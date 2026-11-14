@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { heroDiagram } from "@/content/diagrams";
 import { heroDesktop, heroMobile } from "./layouts/hero";
 import { SystemDiagram } from "./SystemDiagram";
@@ -10,26 +11,33 @@ import { SystemDiagram } from "./SystemDiagram";
  *
  * The vertical copy is capped at max-w-md: between ~480 and 767px it would
  * otherwise scale its 11–12px labels up to twice their size.
+ *
+ * Each copy has its own Suspense boundary so React hydrates them in separate
+ * tasks (both are fully static, so no fallback ever shows).
  */
 export function HeroDiagram() {
   return (
     <>
-      <SystemDiagram
+      <Suspense>
+        <SystemDiagram
         diagram={heroDiagram}
         layout={heroDesktop}
         interactive
         animated
         failover
         className="hidden md:block"
-      />
-      <SystemDiagram
+        />
+      </Suspense>
+      <Suspense>
+        <SystemDiagram
         diagram={heroDiagram}
         layout={heroMobile}
         interactive
         animated
         failover
         className="max-w-md md:hidden"
-      />
+        />
+      </Suspense>
     </>
   );
 }

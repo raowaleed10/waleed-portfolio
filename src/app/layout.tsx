@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Suspense } from "react";
 import { ActiveSection } from "@/components/layout/ActiveSection";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/layout/MotionProvider";
@@ -48,11 +49,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="bg-bg font-sans text-fg">
         <MotionProvider>
           <SkipLink />
-          <Nav />
+          {/* Static Suspense boundaries: no fallback ever shows; they let React
+              hydrate the nav, page and footer as separate, shorter tasks. */}
+          <Suspense>
+            <Nav />
+          </Suspense>
           <main id="main" tabIndex={-1} className="outline-none">
             {children}
           </main>
-          <Footer />
+          <Suspense>
+            <Footer />
+          </Suspense>
           <SmoothScroll />
           <ActiveSection />
         </MotionProvider>

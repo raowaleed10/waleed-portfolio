@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { diagrams } from "@/content/diagrams";
 import type { CaseStudySlug, Diagram } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -48,22 +49,27 @@ export function ProjectDiagram({
   }
 
   const failover = diagram.failover !== undefined;
+  // One Suspense boundary per copy: hydrated as separate tasks (static, so no fallback shows).
   return (
     <div className={className}>
-      <SystemDiagram
-        diagram={diagram}
-        layout={layouts.desktop}
-        animated
-        failover={failover}
-        className={SWITCH[desktopFrom].desktop}
-      />
-      <SystemDiagram
-        diagram={diagram}
-        layout={layouts.mobile}
-        animated
-        failover={failover}
-        className={cn(SWITCH[desktopFrom].mobile, "max-w-md")}
-      />
+      <Suspense>
+        <SystemDiagram
+          diagram={diagram}
+          layout={layouts.desktop}
+          animated
+          failover={failover}
+          className={SWITCH[desktopFrom].desktop}
+        />
+      </Suspense>
+      <Suspense>
+        <SystemDiagram
+          diagram={diagram}
+          layout={layouts.mobile}
+          animated
+          failover={failover}
+          className={cn(SWITCH[desktopFrom].mobile, "max-w-md")}
+        />
+      </Suspense>
     </div>
   );
 }
