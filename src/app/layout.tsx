@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { ActiveSection } from "@/components/layout/ActiveSection";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { Nav } from "@/components/layout/Nav";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { ThemeScript } from "@/components/layout/ThemeScript";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { personJsonLd, rootMetadata, rootViewport, websiteJsonLd } from "@/lib/seo";
@@ -51,6 +53,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer />
+          <SmoothScroll />
+          <ActiveSection />
         </MotionProvider>
         <JsonLd data={[personJsonLd(), websiteJsonLd()]} />
       </body>
