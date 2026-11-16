@@ -23,6 +23,7 @@ export function Contact() {
       <h3 className="max-w-[12em] text-3xl font-medium text-balance">{contact.heading}</h3>
 
       <p className="measure mt-6 text-lg text-pretty text-muted md:mt-8">{contact.body}</p>
+      <p className="measure mt-4 text-lg text-pretty text-fg">{contact.availability}</p>
 
       {/* Phones: two full-width buttons. From sm: one row. */}
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center md:mt-12">

@@ -239,6 +239,8 @@ export interface About {
 export interface Contact {
   readonly heading: string;
   readonly body: string;
+  /** One-line engagement terms, shown under the body. */
+  readonly availability: string;
   /** Link labels from content.md's Contact → Links; hrefs come from `site`. */
   readonly links: {
     readonly linkedin: string;

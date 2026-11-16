@@ -249,6 +249,7 @@ Lately I've been building multi-tenant, AI-integrated B2B platforms where tenant
 
 - Heading: Let's build something that stays up.
 - Body: I'm open to remote full-stack roles. I already work US and Canada Eastern hours from Lahore (5 PM – 2 AM Pakistan time), so your team gets a full working day of real-time overlap. Email is the fastest way to reach me.
+- Availability: Available as a contractor or full-time hire.
 - Email button: raowaleed.codemachine@gmail.com (with copy-to-clipboard)
 - Links: LinkedIn, GitHub, Résumé
 
