@@ -65,7 +65,16 @@ export function SmoothScroll() {
         // Lenis may have started on this very click and not measured the page
         // yet (its scroll limit would still be 0): measure synchronously first.
         lenis.resize();
-        lenis.scrollTo(anchorY(target), { onComplete: () => focusTarget(target) });
+        const active = lenis;
+        active.scrollTo(anchorY(target), {
+          onComplete: () => {
+            // Layout above the target can shift during the animation (the mobile
+            // menu closing, late reflow). Re-measure and settle the last pixels.
+            const y = anchorY(target);
+            if (Math.abs(window.scrollY - y) > 1) active.scrollTo(y, { immediate: true });
+            focusTarget(target);
+          },
+        });
       } else {
         target.scrollIntoView({ block: "start" });
         focusTarget(target);
