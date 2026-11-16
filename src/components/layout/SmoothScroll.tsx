@@ -62,6 +62,9 @@ export function SmoothScroll() {
       if (location.hash !== hash) history.pushState(null, "", hash);
 
       if (lenis) {
+        // Lenis may have started on this very click and not measured the page
+        // yet (its scroll limit would still be 0): measure synchronously first.
+        lenis.resize();
         lenis.scrollTo(anchorY(target), { onComplete: () => focusTarget(target) });
       } else {
         target.scrollIntoView({ block: "start" });
