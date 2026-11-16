@@ -88,7 +88,7 @@ Avoid generic "AI portfolio" looks: purple/blue gradients, glassmorphism everywh
 
 ## Pages and sections
 
-- `/` — Hero, metrics strip, selected work (3 featured case studies + 1 smaller project), incident log, experience, stack, about, contact
+- `/` — Hero, metrics strip, selected work (4 featured case studies: UChatbots, ExcevoAI, Accountabuddy, DityTruck), incident log, experience, stack, about, contact
 - `/work/[slug]` — one page per featured case study
 - Nav: name, section links, theme toggle, "Résumé" button (links to `/Rao-Waleed-CV.pdf` once I add it to `/public`)
 - Footer: email, GitHub, LinkedIn, "Built with Next.js · Source on GitHub" linking to this repo

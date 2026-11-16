@@ -135,14 +135,28 @@ Intro: Products I've built and run in production.
 - Outcome: Core live-session feature restored after a total outage, and billing made reliable for paying subscribers.
 - Architecture diagram nodes: Browser (React + custom WebSocket client) ⇄ Nginx → Uvicorn ASGI → Django Channels ⇄ Redis (channels_redis). Uvicorn ASGI → DRF API (the HTTP API runs on the same ASGI workers). Stripe webhooks → DRF API → idempotent handler (the handler lives in the DRF API). Side nodes: Celery + beat → pairing, reminders, nightly jobs.
 
-### DityTruck (smaller card, no case-study page)
+### DityTruck (featured)
 
+Research and CV-vs-code check: docs/ditytruck-research.md. Wording below approved by Waleed on 2026-11-16.
+
+- Slug: ditytruck
 - One-liner: Truck-rental marketplace backend
 - Company: Code Todo (remote) · small team under a team lead
-- Stack: Django REST Framework, PostgreSQL, JWT, Nginx, Gunicorn, Ubuntu, Playwright, Selenium
-- Summary: Built the backend from scratch, 15+ DRF endpoints for a production marketplace, and cut response times by 40% by designing the schema around real access patterns, adding targeted indexes and restructuring the heaviest queries on live traffic.
-- Also: 3 Playwright and Selenium scrapers aggregating 500+ listings daily from three sources.
-- TODO(waleed): public URL, if there is one
+- Status: Production marketplace
+- Live URL: https://www.ditytruck.com
+- Stack: Django REST Framework, PostgreSQL, JWT, Playwright, Selenium, Nginx, Gunicorn, Ubuntu
+- Card summary: A Django REST backend for a truck-rental marketplace: one search returns live listings and rates from five public rental providers.
+- Context: DityTruck helps US movers compare truck rentals. A customer searches once; the platform gathers listings and rates from the major rental brands, and the team follows up on reservation requests.
+- What I built:
+  - The backend from scratch: 15+ Django REST Framework endpoints on PostgreSQL for a production truck-rental marketplace.
+  - Playwright and Selenium automation that aggregated listings and rates from five public rental providers (U-Haul, Budget, Penske, U-Pack and SpareFoot): 500+ listings daily.
+  - Automated multi-step quote searches on the providers' public sites, with reservation requests stored for the operations team.
+  - JWT authentication for the customer API and a staff-only Django admin with role-based permissions.
+  - Cut endpoint response times by 40% by designing the schema around real access patterns, adding targeted indexes and restructuring the heaviest queries on live traffic.
+  - Deployed and ran the stack on Ubuntu with Nginx and Gunicorn.
+- Hard problems: none documented (no incident is listed for DityTruck)
+- Outcome: Endpoint response times down 40%, with five rental providers' listings and rates behind a single search.
+- Architecture diagram nodes: Customer site (React) → DRF API (JWT auth) → PostgreSQL. DRF API → Scrapers (Playwright / Selenium) → U-Haul, Budget, Penske, U-Pack, SpareFoot (public rental providers). Side node: Django admin (staff-only) → PostgreSQL (reservation requests).
 
 ---
 
@@ -204,8 +218,8 @@ Intro: Production doesn't fail politely. A few incidents I've root-caused on liv
 - Dates: Sep 2024 – Oct 2025
 - Built the DityTruck backend from scratch: 15+ DRF endpoints for a production truck-rental marketplace.
 - Cut endpoint response times by 40% through schema design around real access patterns, targeted indexes and query restructuring on live traffic.
-- Built 3 Playwright and Selenium scrapers aggregating 500+ listings daily, and automated reservation flows with Selenium WebDriver.
-- Secured the admin panel with JWT authentication and role-based access control; deployed and ran the stack on Ubuntu with Nginx and Gunicorn.
+- Built Playwright and Selenium automation aggregating 500+ listings daily from five public rental providers, with multi-step quote searches and reservation requests stored for the operations team.
+- Added JWT authentication for the customer API and a staff-only Django admin with role-based permissions; deployed and ran the stack on Ubuntu with Nginx and Gunicorn.
 
 ### Freelance Full-Stack Developer — Self-employed, Lahore
 
