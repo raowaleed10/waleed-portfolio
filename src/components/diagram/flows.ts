@@ -41,6 +41,15 @@ export const packetFlows = {
     { path: ["celery", "jobs"], weight: 1 },
     { path: ["stripe", "api", "handler"], weight: 1 },
   ],
+  ditytruck: [
+    { path: ["site", "api", "scrapers", "uhaul"], weight: 1 },
+    { path: ["site", "api", "scrapers", "budget"], weight: 1 },
+    { path: ["site", "api", "scrapers", "penske"], weight: 1 },
+    { path: ["site", "api", "scrapers", "upack"], weight: 1 },
+    { path: ["site", "api", "scrapers", "sparefoot"], weight: 1 },
+    { path: ["site", "api", "postgres"], weight: 2 },
+    { path: ["admin", "postgres"], weight: 1 },
+  ],
 } as const satisfies Record<DiagramId, readonly PacketFlow[]>;
 
 /** Spawn cadence and pool size. Project diagrams are gentler than the hero. */
@@ -49,4 +58,5 @@ export const packetTuning = {
   uchatbots: { everyMs: 650, pool: 8 },
   excevoai: { everyMs: 650, pool: 8 },
   accountabuddy: { everyMs: 650, pool: 8 },
+  ditytruck: { everyMs: 650, pool: 8 },
 } as const satisfies Record<DiagramId, { everyMs: number; pool: number }>;

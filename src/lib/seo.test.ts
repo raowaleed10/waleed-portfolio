@@ -108,6 +108,7 @@ describe("content helpers", () => {
       "/work/uchatbots",
       "/work/excevoai",
       "/work/accountabuddy",
+      "/work/ditytruck",
     ]);
   });
 });

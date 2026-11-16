@@ -49,15 +49,16 @@ describe("SelectedWork server HTML", () => {
     }
   });
 
-  it("draws a static sketch per row and none for the small project", () => {
+  it("draws one labelled static sketch per featured row", () => {
     expect(html.match(/data-layer="nodes"/g)).toHaveLength(selectedWork.featured.length);
+    const sketches = html.split('data-layer="nodes"').slice(1);
+    for (const sketch of sketches) {
+      expect((sketch.match(/<text\b/g) ?? []).length).toBeGreaterThanOrEqual(5);
+    }
   });
 
-  it("contains the small project without placeholders", () => {
-    const { small } = selectedWork;
-    for (const copy of [small.name, small.oneLiner, small.company, small.summary, small.also, ...small.stack]) {
-      expect(text).toContain(copy);
-    }
+  it("features DityTruck and renders no placeholders", () => {
+    expect(selectedWork.featured.map((p) => p.slug)).toContain("ditytruck");
     // Case-sensitive: "Code Todo" is a company name.
     expect(html).not.toMatch(/TODO/);
   });

@@ -17,7 +17,7 @@ describe("isCaseStudySlug / findCaseStudy", () => {
   });
 
   it("rejects unknown slugs, including inherited property names", () => {
-    for (const slug of ["", "ditytruck", "UChatbots", "constructor", "__proto__", "toString"]) {
+    for (const slug of ["", "dity-truck", "UChatbots", "constructor", "__proto__", "toString"]) {
       expect(isCaseStudySlug(slug)).toBe(false);
       expect(findCaseStudy(slug)).toBeUndefined();
     }
@@ -26,10 +26,14 @@ describe("isCaseStudySlug / findCaseStudy", () => {
 
 describe("adjacentCaseStudies", () => {
   it("links each study to its neighbours in page order, wrapping at both ends", () => {
-    const [first, second, third] = caseStudies;
-    expect(adjacentCaseStudies(first.slug)).toEqual({ previous: third, next: second });
-    expect(adjacentCaseStudies(second.slug)).toEqual({ previous: first, next: third });
-    expect(adjacentCaseStudies(third.slug)).toEqual({ previous: second, next: first });
+    const n = caseStudies.length;
+    expect(n).toBe(4);
+    caseStudies.forEach((study, i) => {
+      expect(adjacentCaseStudies(study.slug)).toEqual({
+        previous: caseStudies[(i - 1 + n) % n],
+        next: caseStudies[(i + 1) % n],
+      });
+    });
   });
 
   it("never links a page to itself", () => {

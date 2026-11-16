@@ -171,9 +171,41 @@ export const accountabuddyDiagram = {
   ],
 } as const satisfies Diagram;
 
+// Only parts verified in the code (docs/ditytruck-research.md): no queue,
+// scheduler or other service the backend does not have.
+export const ditytruckDiagram = {
+  id: "ditytruck",
+  title:
+    "DityTruck architecture: the customer site, built in React, calls a Django REST API with JWT authentication that stores searches and reservation requests in PostgreSQL. For each search the API runs Playwright and Selenium scrapers against five public rental providers: U-Haul, Budget, Penske, U-Pack and SpareFoot. A staff-only Django admin works with the reservation requests in PostgreSQL.",
+  nodes: [
+    { id: "site", label: "Customer site", sublabel: "React" },
+    { id: "api", label: "DRF API", sublabel: "JWT auth" },
+    { id: "postgres", label: "PostgreSQL" },
+    { id: "scrapers", label: "Scrapers", sublabel: "Playwright / Selenium" },
+    { id: "uhaul", label: "U-Haul" },
+    { id: "budget", label: "Budget" },
+    { id: "penske", label: "Penske" },
+    { id: "upack", label: "U-Pack" },
+    { id: "sparefoot", label: "SpareFoot" },
+    { id: "admin", label: "Django admin", sublabel: "staff-only" },
+  ],
+  edges: [
+    { from: "site", to: "api" },
+    { from: "api", to: "postgres" },
+    { from: "api", to: "scrapers" },
+    { from: "scrapers", to: "uhaul" },
+    { from: "scrapers", to: "budget" },
+    { from: "scrapers", to: "penske" },
+    { from: "scrapers", to: "upack" },
+    { from: "scrapers", to: "sparefoot" },
+    { from: "admin", to: "postgres", label: "reservations" },
+  ],
+} as const satisfies Diagram;
+
 export const diagrams = {
   hero: heroDiagram,
   uchatbots: uchatbotsDiagram,
   excevoai: excevoaiDiagram,
   accountabuddy: accountabuddyDiagram,
+  ditytruck: ditytruckDiagram,
 } as const satisfies Record<DiagramId, Diagram>;

@@ -1,6 +1,7 @@
 import type { DiagramId } from "@/content/types";
 import type { DiagramLayouts } from "../types";
 import { accountabuddyDesktop, accountabuddyMobile } from "./accountabuddy";
+import { ditytruckDesktop, ditytruckMobile } from "./ditytruck";
 import { excevoaiDesktop, excevoaiMobile } from "./excevoai";
 import { heroDesktop, heroMobile } from "./hero";
 import { uchatbotsDesktop, uchatbotsMobile } from "./uchatbots";
@@ -11,4 +12,5 @@ export const diagramLayouts = {
   uchatbots: { desktop: uchatbotsDesktop, mobile: uchatbotsMobile },
   excevoai: { desktop: excevoaiDesktop, mobile: excevoaiMobile },
   accountabuddy: { desktop: accountabuddyDesktop, mobile: accountabuddyMobile },
+  ditytruck: { desktop: ditytruckDesktop, mobile: ditytruckMobile },
 } as const satisfies Record<DiagramId, DiagramLayouts>;

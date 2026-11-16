@@ -12,7 +12,7 @@ export type SectionId =
   | "about"
   | "contact";
 
-export type CaseStudySlug = "uchatbots" | "excevoai" | "accountabuddy";
+export type CaseStudySlug = "uchatbots" | "excevoai" | "accountabuddy" | "ditytruck";
 export type DiagramId = "hero" | CaseStudySlug;
 export type IncidentId = "INC-01" | "INC-02" | "INC-03" | "INC-04" | "INC-05";
 
@@ -153,20 +153,9 @@ export interface CaseStudy {
   readonly diagram: DiagramId;
 }
 
-export interface SmallProject {
-  readonly name: string;
-  readonly oneLiner: string;
-  readonly company: string;
-  readonly stack: readonly string[];
-  readonly summary: string;
-  readonly also: string;
-  readonly url?: string;
-}
-
 export interface SelectedWork {
   readonly intro: string;
   readonly featured: readonly CaseStudy[];
-  readonly small: SmallProject;
 }
 
 /* ------------------------------------------------------------- incidents */

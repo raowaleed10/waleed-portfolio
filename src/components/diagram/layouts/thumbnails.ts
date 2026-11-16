@@ -2,7 +2,7 @@ import type { CaseStudySlug, Diagram } from "@/content/types";
 import type { DiagramLayout } from "../types";
 
 /*
- * Labelled thumbnails for the homepage work rows: each project's 6 most
+ * Labelled thumbnails for the homepage work rows: each project's 5–6 most
  * important nodes, same labels as its case-study diagram (no sublabels, no
  * group frames), in a 300-unit-wide viewBox. Thumbnails render ≥ 279px wide
  * (a 375px phone), so 12-unit labels stay ≥ 11px; on wide screens the work
@@ -87,10 +87,34 @@ const accountabuddy: DiagramLayout = {
   ],
 };
 
+/** DityTruck: the request path, the scrapers and the staff admin. */
+const ditytruck: DiagramLayout = {
+  width: 300,
+  height: 160,
+  nodes: {
+    site: { x: 0, y: 0, w: 128, h: 32 },
+    api: { x: 164, y: 0, w: 84, h: 32 },
+    postgres: { x: 0, y: 64, w: 112, h: 32 },
+    scrapers: { x: 164, y: 64, w: 96, h: 32 },
+    admin: { x: 0, y: 128, w: 128, h: 32 },
+  },
+  edges: [
+    { from: "site", to: "api", points: [{ x: 128, y: 16 }, { x: 164, y: 16 }] },
+    {
+      from: "api",
+      to: "postgres",
+      points: [{ x: 180, y: 32 }, { x: 180, y: 48 }, { x: 56, y: 48 }, { x: 56, y: 64 }],
+    },
+    { from: "api", to: "scrapers", points: [{ x: 220, y: 32 }, { x: 220, y: 64 }] },
+    { from: "admin", to: "postgres", points: [{ x: 56, y: 128 }, { x: 56, y: 96 }] },
+  ],
+};
+
 export const projectThumbnails: Readonly<Record<CaseStudySlug, DiagramLayout>> = {
   uchatbots,
   excevoai,
   accountabuddy,
+  ditytruck,
 };
 
 /**
@@ -106,8 +130,9 @@ export function thumbnailDiagram(diagram: Diagram, layout: DiagramLayout): Diagr
     nodes: diagram.nodes
       .filter((n) => ids.has(n.id))
       .map((n) => ({ id: n.id, label: n.label })),
-    edges: diagram.edges.filter(
-      (e) => ids.has(e.from) && ids.has(e.to) && routed.has(`${e.from}->${e.to}`),
-    ),
+    // Thumbnails draw no edge labels, so the sub-graph carries none.
+    edges: diagram.edges
+      .filter((e) => ids.has(e.from) && ids.has(e.to) && routed.has(`${e.from}->${e.to}`))
+      .map(({ from, to, bidirectional }) => ({ from, to, bidirectional })),
   };
 }

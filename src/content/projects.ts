@@ -1,4 +1,4 @@
-import type { CaseStudy, CaseStudySlug, SelectedWork, SmallProject } from "./types";
+import type { CaseStudy, CaseStudySlug, SelectedWork } from "./types";
 
 export const uchatbots = {
   slug: "uchatbots",
@@ -109,37 +109,53 @@ export const accountabuddy = {
   diagram: "accountabuddy",
 } as const satisfies CaseStudy;
 
-export const dityTruck = {
+// Claims checked against the code and approved wording: docs/ditytruck-research.md.
+export const ditytruck = {
+  slug: "ditytruck",
   name: "DityTruck",
   oneLiner: "Truck-rental marketplace backend",
   company: "Code Todo (remote) · small team under a team lead",
+  status: "Production marketplace",
+  liveUrl: "https://www.ditytruck.com",
   stack: [
     "Django REST Framework",
     "PostgreSQL",
     "JWT",
+    "Playwright",
+    "Selenium",
     "Nginx",
     "Gunicorn",
     "Ubuntu",
-    "Playwright",
-    "Selenium",
   ],
-  summary:
-    "Built the backend from scratch, 15+ DRF endpoints for a production marketplace, and cut response times by 40% by designing the schema around real access patterns, adding targeted indexes and restructuring the heaviest queries on live traffic.",
-  also: "3 Playwright and Selenium scrapers aggregating 500+ listings daily from three sources.",
-  // TODO(waleed): public URL, if there is one.
-} as const satisfies SmallProject;
+  cardSummary:
+    "A Django REST backend for a truck-rental marketplace: one search returns live listings and rates from five public rental providers.",
+  context:
+    "DityTruck helps US movers compare truck rentals. A customer searches once; the platform gathers listings and rates from the major rental brands, and the team follows up on reservation requests.",
+  built: [
+    "The backend from scratch: 15+ Django REST Framework endpoints on PostgreSQL for a production truck-rental marketplace.",
+    "Playwright and Selenium automation that aggregated listings and rates from five public rental providers (U-Haul, Budget, Penske, U-Pack and SpareFoot): 500+ listings daily.",
+    "Automated multi-step quote searches on the providers’ public sites, with reservation requests stored for the operations team.",
+    "JWT authentication for the customer API and a staff-only Django admin with role-based permissions.",
+    "Cut endpoint response times by 40% by designing the schema around real access patterns, adding targeted indexes and restructuring the heaviest queries on live traffic.",
+    "Deployed and ran the stack on Ubuntu with Nginx and Gunicorn.",
+  ],
+  incidents: [],
+  outcome:
+    "Endpoint response times down 40%, with five rental providers’ listings and rates behind a single search.",
+  diagram: "ditytruck",
+} as const satisfies CaseStudy;
 
 /** Featured case studies, in page order. */
-export const caseStudies: readonly CaseStudy[] = [uchatbots, excevoai, accountabuddy];
+export const caseStudies: readonly CaseStudy[] = [uchatbots, excevoai, accountabuddy, ditytruck];
 
 export const caseStudiesBySlug: Readonly<Record<CaseStudySlug, CaseStudy>> = {
   uchatbots,
   excevoai,
   accountabuddy,
+  ditytruck,
 };
 
 export const selectedWork = {
   intro: "Products I’ve built and run in production.",
   featured: caseStudies,
-  small: dityTruck,
 } as const satisfies SelectedWork;

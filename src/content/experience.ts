@@ -23,8 +23,8 @@ export const experience = [
     bullets: [
       "Built the DityTruck backend from scratch: 15+ DRF endpoints for a production truck-rental marketplace.",
       "Cut endpoint response times by 40% through schema design around real access patterns, targeted indexes and query restructuring on live traffic.",
-      "Built 3 Playwright and Selenium scrapers aggregating 500+ listings daily, and automated reservation flows with Selenium WebDriver.",
-      "Secured the admin panel with JWT authentication and role-based access control; deployed and ran the stack on Ubuntu with Nginx and Gunicorn.",
+      "Built Playwright and Selenium automation aggregating 500+ listings daily from five public rental providers, with multi-step quote searches and reservation requests stored for the operations team.",
+      "Added JWT authentication for the customer API and a staff-only Django admin with role-based permissions; deployed and ran the stack on Ubuntu with Nginx and Gunicorn.",
     ],
   },
   {
