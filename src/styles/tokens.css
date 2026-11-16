@@ -37,7 +37,7 @@
   /* Layout */
   --gutter: 20px;
   --container-max: 1360px;
-  --section-pad: clamp(96px, 12vw, 160px);
+  --section-pad: clamp(64px, 8vw, 112px);
   --nav-height: 64px;
 
   /* Layers */
