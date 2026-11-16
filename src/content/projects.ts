@@ -31,7 +31,7 @@ export const uchatbots = {
     "A client auth layer with a queue-based Axios token-refresh interceptor and BroadcastChannel cross-tab session sync.",
   ],
   incidents: ["INC-03", "INC-04"],
-  outcome: "In production on 8 live customer sites; 2 recovered production paths documented below.",
+  outcome: "In production on 8 live customer sites; 2 recovered production paths documented above.",
   diagram: "uchatbots",
 } as const satisfies CaseStudy;
 

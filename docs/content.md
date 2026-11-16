@@ -93,7 +93,7 @@ Intro: Products I've built and run in production.
   - Moved Google sign-in from a client-side id_token to a server-side OAuth2 authorization-code flow for stronger XSS resistance.
   - A client auth layer with a queue-based Axios token-refresh interceptor and BroadcastChannel cross-tab session sync.
 - Hard problems: see INC-03 and INC-04
-- Outcome: In production on 8 live customer sites; 2 recovered production paths documented below.
+- Outcome: In production on 8 live customer sites; 2 recovered production paths documented above.
 - Architecture diagram nodes: Customer websites → Chat (WebSocket / REST) → DRF backend (10 apps) → Flow runtime (serialized pause/resume state) → AI orchestration → Provider A / Provider B (failover). Side nodes: ReactFlow editor → DRF backend; Stripe → credits; Google OAuth2 (server-side code flow) → auth.
 
 ### ExcevoAI (featured)
