@@ -63,14 +63,25 @@ export function ActiveSection() {
     const observer = new MutationObserver(apply);
     if (header) observer.observe(header, { childList: true, subtree: true });
 
+    // Section positions can change without a scroll event: scroll restoration
+    // on reload, fonts swapping in, panels opening. Re-check whenever the page
+    // resizes and once it has fully loaded.
+    const layout = new ResizeObserver(schedule);
+    layout.observe(document.body);
+
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
+    window.addEventListener("load", schedule);
+    window.addEventListener("pageshow", schedule);
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
+      layout.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      window.removeEventListener("load", schedule);
+      window.removeEventListener("pageshow", schedule);
     };
   }, [pathname]);
 
