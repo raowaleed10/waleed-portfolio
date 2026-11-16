@@ -3,6 +3,7 @@ import { diagrams } from "@/content/diagrams";
 import type { CaseStudySlug, Diagram } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { diagramLayouts } from "./layouts";
+import { projectThumbnails, thumbnailDiagram } from "./layouts/thumbnails";
 import { SystemDiagram } from "./SystemDiagram";
 
 /** Where the desktop layout takes over from the vertical one. */
@@ -18,9 +19,9 @@ const SWITCH = {
  *   text stays ≥ 11px) and the vertical layout (335 units, capped at
  *   max-w-md) below the breakpoint. Gentle packets; UChatbots also runs the
  *   provider failover. No tooltips: project nodes have none.
- * - `thumbnail`: the desktop layout without text. Static, decorative
- *   (aria-hidden), so pair it with a visible project name. Aspect ratios:
- *   uchatbots 704∶336, excevoai 720∶268, accountabuddy 716∶200.
+ * - `thumbnail`: the project's 6 key nodes with labels (layouts/thumbnails.ts),
+ *   300 units wide so labels stay ≥ 11px from 279px up. Static, decorative
+ *   (aria-hidden), so pair it with a visible project name.
  */
 export function ProjectDiagram({
   slug,
@@ -38,10 +39,11 @@ export function ProjectDiagram({
   const layouts = diagramLayouts[slug];
 
   if (variant === "thumbnail") {
+    const layout = projectThumbnails[slug];
     return (
       <SystemDiagram
-        diagram={diagram}
-        layout={layouts.desktop}
+        diagram={thumbnailDiagram(diagram, layout)}
+        layout={layout}
         variant="thumbnail"
         className={className}
       />

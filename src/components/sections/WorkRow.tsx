@@ -37,10 +37,10 @@ export function WorkRow({ project }: { project: CaseStudy }) {
       aria-labelledby={ids.heading}
       className={`${GRID} gap-y-6 border-t border-border py-10 md:gap-y-8 md:py-12 lg:py-16`}
     >
-      {/* The three sketches have different aspect ratios (2.1 to 3.6 : 1).
-          A 16:9 frame with each drawn at 5/6 of its width keeps every row the
-          same shape and every sketch at the same scale (all three layouts are
-          ~710 units wide); the tallest, UChatbots, gets even margins.
+      {/* Each sketch is its project's 6 key nodes, labelled, in a 300-unit
+          viewBox, capped at max-w-sm. Phones: a 16:10 frame with the sketch at
+          11/12 of its width, so labels stay ≥ 11px at 375px. From sm: 16:9 at
+          5/6. Every row keeps the same shape; labels are ~15px on wide screens.
           The frame is a hairline on the page background, not a filled panel:
           the nodes are drawn in the surface color, so they read exactly as
           they do in the hero diagram. */}
@@ -50,8 +50,8 @@ export function WorkRow({ project }: { project: CaseStudy }) {
         aria-hidden
         className="group block max-w-lg self-start lg:col-span-5 lg:max-w-none"
       >
-        <div className="flex aspect-video items-center justify-center rounded-md border border-border group-hover:border-border-strong">
-          <div className="w-5/6">
+        <div className="flex aspect-[16/10] items-center justify-center rounded-md border border-border group-hover:border-border-strong sm:aspect-video">
+          <div className="w-11/12 max-w-sm sm:w-5/6">
             <ProjectDiagram slug={project.slug} variant="thumbnail" />
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { diagrams } from "@/content/diagrams";
-import type { Diagram, DiagramId } from "@/content/types";
+import type { CaseStudySlug, Diagram, DiagramId } from "@/content/types";
 import { ui } from "@/content/ui";
 import {
   ARROW,
@@ -15,6 +15,7 @@ import {
   tooltipPlacement,
 } from "./geometry";
 import { diagramLayouts } from "./layouts";
+import { projectThumbnails, thumbnailDiagram } from "./layouts/thumbnails";
 import type { Box, DiagramLayout, Point } from "./types";
 
 /*
@@ -24,8 +25,9 @@ import type { Box, DiagramLayout, Point } from "./types";
 
 /** Narrowest render width of each layout kind, in CSS px. */
 const MIN_RENDER_WIDTH = {
-  hero: { desktop: 479, mobile: 320 },
-  project: { desktop: 690, mobile: 320 },
+  hero: { desktop: 479, mobile: 320, thumbnail: 0 },
+  // Thumbnails: 11/12 of the ~319px work-row frame on a 375px phone (~292px).
+  project: { desktop: 690, mobile: 320, thumbnail: 290 },
 } as const;
 
 const NODE_GAP = 12;
@@ -105,14 +107,46 @@ function textBox(x: number, y: number, text: string, size: number, anchor: strin
   return { x: left, y: y - size * 0.75, w, h: size };
 }
 
-const cases = (Object.keys(diagramLayouts) as DiagramId[]).flatMap((id) =>
-  (["desktop", "mobile"] as const).map((kind) => ({
+const cases: Array<{
+  id: DiagramId;
+  kind: "desktop" | "mobile" | "thumbnail";
+  diagram: Diagram;
+  layout: DiagramLayout;
+}> = [
+  ...(Object.keys(diagramLayouts) as DiagramId[]).flatMap((id) =>
+    (["desktop", "mobile"] as const).map((kind) => ({
+      id,
+      kind,
+      diagram: diagrams[id] as Diagram,
+      layout: diagramLayouts[id][kind] as DiagramLayout,
+    })),
+  ),
+  // Thumbnails are checked against the sub-graph they actually draw.
+  ...(Object.keys(projectThumbnails) as CaseStudySlug[]).map((id) => ({
     id,
-    kind,
-    diagram: diagrams[id] as Diagram,
-    layout: diagramLayouts[id][kind] as DiagramLayout,
+    kind: "thumbnail" as const,
+    diagram: thumbnailDiagram(diagrams[id], projectThumbnails[id]),
+    layout: projectThumbnails[id],
   })),
-);
+];
+
+describe("project thumbnails", () => {
+  it.each(Object.keys(projectThumbnails) as CaseStudySlug[])(
+    "%s shows 5–6 real nodes with their case-study labels",
+    (slug) => {
+      const sub = thumbnailDiagram(diagrams[slug], projectThumbnails[slug]);
+      const full = new Map<string, string>(diagrams[slug].nodes.map((n) => [n.id, n.label]));
+      expect(sub.nodes.length).toBeGreaterThanOrEqual(5);
+      expect(sub.nodes.length).toBeLessThanOrEqual(6);
+      for (const id of Object.keys(projectThumbnails[slug].nodes)) {
+        expect(full.has(id), `${slug}: ${id} is a real node`).toBe(true);
+      }
+      for (const n of sub.nodes) expect(n.label).toBe(full.get(n.id));
+      // Every route maps to a real edge of the case-study graph.
+      expect(sub.edges).toHaveLength(projectThumbnails[slug].edges.length);
+    },
+  );
+});
 
 describe.each(cases)("$id $kind layout", ({ id, kind, diagram, layout }) => {
   const nodeIds = diagram.nodes.map((n) => n.id);
@@ -279,7 +313,9 @@ describe.each(cases)("$id $kind layout", ({ id, kind, diagram, layout }) => {
 
   it("fits every label in its box at ≥ 11px", () => {
     const minWidth = MIN_RENDER_WIDTH[id === "hero" ? "hero" : "project"][kind];
-    expect(TYPE.small * (minWidth / layout.width)).toBeGreaterThanOrEqual(10.95);
+    // Thumbnails draw node labels only (TYPE.label); full layouts also draw TYPE.small text.
+    const smallest = kind === "thumbnail" ? TYPE.label : TYPE.small;
+    expect(smallest * (minWidth / layout.width)).toBeGreaterThanOrEqual(10.95);
 
     const failover = new Set<string>(diagram.failover ?? []);
     const stateWidth = Math.max(

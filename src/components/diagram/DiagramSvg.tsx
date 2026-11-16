@@ -19,7 +19,7 @@ export interface DiagramSvgProps {
   layout: DiagramLayout;
   /** Precomputed geometry (client components memoize it). */
   geometry?: DiagramGeometry;
-  /** "thumbnail" draws boxes, lines and dots only: no text, decorative. */
+  /** "thumbnail": static and decorative; node labels only (no sublabels, edge or group labels). */
   variant?: DiagramVariant;
   /** Render the stacked amber layers and state labels for diagram.failover. */
   failover?: boolean;
@@ -128,7 +128,7 @@ export function DiagramSvg({
             {edge.segments.map((seg) => (
               <Segment key={seg.key} seg={seg} hooks={full} />
             ))}
-            {full
+            {full || variant === "thumbnail"
               ? edge.arrows.map((arrow) => (
                   <path
                     key={arrow.key}
@@ -248,7 +248,7 @@ export function DiagramSvg({
                   className="fill-incident"
                 />
               ) : null}
-              {full ? (
+              {full || variant === "thumbnail" ? (
                 <text
                   x={node.textX}
                   y={node.labelY}
